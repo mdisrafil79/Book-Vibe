@@ -1,4 +1,6 @@
+import Image from "next/image";
 import React from "react";
+import logo from "@/assets/book.ico"
 
 const Navbar = () => {
   return (
@@ -46,7 +48,10 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <div className="flex gap-2 items-center">
+          <Image src={logo} alt="Logo"/>
+          Book Vibe
+        </div>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
