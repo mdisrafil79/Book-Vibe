@@ -97,10 +97,7 @@ const ListedBooksCard = ({ book }: IListedBooksCardProps) => {
             href={`/books/${book.bookId}`}
             className="btn btn-primary rounded-xl px-6"
           >
-            <button className="btn btn-primary rounded-xl px-6">
-              {" "}
-              View Details →{" "}
-            </button>{" "}
+            View Details →
           </Link>
           <button className="btn btn-outline rounded-xl px-6">
             {" "}

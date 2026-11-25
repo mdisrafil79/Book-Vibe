@@ -8,10 +8,12 @@ const WishListButton = ({ book }: { book: IBook }) => {
   const { wishlist, setWishlist } = useContext(BooksContext);
 
   const handleAddToWishlist = () => {
-    console.log("add to wishlist btn triggered", book);
+    if (wishlist.some((item) => item.bookId === book.bookId)) {
+      toast.info(`"${book.bookName}" is already in your wishlist`);
+      return;
+    }
 
-    // setWishlist((prevWishlist) => [...prevWishlist, book]);
-    setWishlist([...wishlist, book]);
+    setWishlist((previous) => [...previous, book]);
     toast.success(`You have added "${book.bookName}" to your wishlist`);
   };
   return (

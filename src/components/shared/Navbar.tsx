@@ -61,7 +61,7 @@ const Navbar = () => {
               <Link href="/books">Books</Link>
             </li>
             <li>
-              <Link href="/listed-books">Listed Books</Link>
+              <Link href="/listed-book">Listed Books</Link>
             </li>
             <li>
               <Link href="/read-books">Read Books</Link>

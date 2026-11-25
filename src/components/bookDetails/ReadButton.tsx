@@ -8,10 +8,12 @@ const ReadButton = ({ book }: { book: IBook }) => {
   const { readBooks, setReadBooks } = useContext(BooksContext);
 
   const handleReadBook = () => {
-    console.log("read book btn triggered", book);
+    if (readBooks.some((item) => item.bookId === book.bookId)) {
+      toast.info(`"${book.bookName}" is already in your read list`);
+      return;
+    }
 
-    // setReadBooks((prevReadBooks) => [...prevReadBooks, book]);
-    setReadBooks([...readBooks, book]);
+    setReadBooks((previous) => [...previous, book]);
     toast.success(`You have read "${book.bookName}"`);
   };
   return (
