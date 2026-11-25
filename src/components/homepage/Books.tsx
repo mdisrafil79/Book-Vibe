@@ -1,42 +1,46 @@
-'use cache';
-import BookCard from '../shared/BookCard';
-import { IBook } from '@/types/books.type';
-import { readFile } from 'node:fs/promises';
-import path from 'node:path';
+import BookCard from "../shared/BookCard";
+import { IBook } from "@/types/books.type";
 
-const getBooks = async (): Promise<IBook[]> => {
-  const filePath = path.join(process.cwd(), 'public', 'booksData.json');
-  const fileContents = await readFile(filePath, 'utf8');
-  return JSON.parse(fileContents) as IBook[];
+const getBooks = async () => {
+  try{
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/booksData.json`,
+    );
+    const data = await response.json();
+    return data;
+  }catch(error){
+    console.error("Error fetching books data:", error);
+    return [];
+  }
 };
 
 const Books = async () => {
   const booksData = await getBooks();
 
   return (
-    <section className="container mx-auto px-4 py-12 md:py-16">
-
+    <section className="container mx-auto my-[70px] px-4">
       {/* Section Heading */}
       <div className="mb-10 text-center">
-        <span className="mb-3 inline-block rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700">
+        <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-emerald-500">
           Our Collection
-        </span>
+        </p>
 
-        <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
-          Explore Our Books
+        <h2 className="text-3xl font-bold text-slate-800 md:text-4xl">
+          Explore Popular Books
         </h2>
 
-        <p className="mx-auto mt-3 max-w-xl text-slate-500">
-          Discover amazing stories, timeless classics, and
-          inspiring books for every reader.
+        <p className="mx-auto mt-3 max-w-2xl text-slate-500">
+          Discover amazing stories, timeless classics, and inspiring books from
+          talented authors.
         </p>
       </div>
 
       {/* Books Grid */}
-      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
-        {booksData.slice(0, 9).map((book) => (
-          <BookCard key={book.bookId} book={book} />
-        ))}
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {booksData.slice(0, 9).map((book: IBook, ind: number) => {
+          return <BookCard key={ind} book={book} />;
+        })}
       </div>
     </section>
   );
