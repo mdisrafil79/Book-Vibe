@@ -1,35 +1,13 @@
-
 'use cache';
-
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import BookCard from '../shared/BookCard';
+import { IBook } from '@/types/books.type';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
 
-interface Book {
-  author: string;
-  bookId: number;
-  bookName: string;
-  category: string;
-  image: string;
-  publisher: string;
-  rating: number;
-  review: string;
-  tags: string[];
-  totalPages: number;
-  yearOfPublishing: number;
-}
-
-const getBooks = async (): Promise<Book[]> => {
-  const response = await fetch(
-    'http://localhost:3000/booksData.json'
-  );
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch books');
-  }
-
-  return response.json();
+const getBooks = async (): Promise<IBook[]> => {
+  const filePath = path.join(process.cwd(), 'public', 'booksData.json');
+  const fileContents = await readFile(filePath, 'utf8');
+  return JSON.parse(fileContents) as IBook[];
 };
 
 const Books = async () => {
@@ -56,11 +34,9 @@ const Books = async () => {
 
       {/* Books Grid */}
       <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {booksData.map((book, ind) => 
-            {
-                return <BookCard key={ind} book={book}/>
-            }
-        )}
+        {booksData.map((book) => (
+          <BookCard key={book.bookId} book={book} />
+        ))}
       </div>
     </section>
   );
